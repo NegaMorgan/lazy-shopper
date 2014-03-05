@@ -5,9 +5,10 @@ class DeliveryDotComSearch
   def initialize(search_term)
     @term = search_term
     @address = "243 East Broadway 10002".gsub(" ", "%20")
+    get_merchants
   end
   def search
-    store_ids = merchants.collect{|m| m[:id]}
+    store_ids = @merchants.collect{|m| m[:id]}
     merchant_urls = store_ids.collect { |store_id| "https://api.delivery.com/merchant/#{store_id}/menu?client_id=#{TOKEN}&address=#{@address}" }
     merchant_urls.collect do |url|
       page = RestClient.get(url)
@@ -26,7 +27,6 @@ class DeliveryDotComSearch
     page = RestClient.get("https://api.delivery.com/merchant/search/delivery?client_id=#{TOKEN}&address=#{@address}&merchant_type=I")
     store_fronts = JSON.parse(page)
     @merchants = store_fronts["merchants"].collect do |merchant| 
-        binding.pry
       {
         :id => merchant["id"],
         :name => merchant["summary"]["name"],
