@@ -45,6 +45,7 @@ class LazyShopperCLI
   end
 
   def search
+    count = 5
     puts "What would you like to search for?"
     term = gets.chomp
     puts "wait for it..."
@@ -52,17 +53,31 @@ class LazyShopperCLI
     max_delivery_search = MaxDeliverySearch.new(term)
     results = max_delivery_search.search
     puts "\nAvailable at MaxDelivery.com:" if results.count > 0
-    results[0..2].each {|result| puts result.join(" | ")}
+    results[0..count-1].each do |result| 
+      product_name = result[0][0..30]
+      product_name.concat("...") if product_name != result[0]
+      price = "at #{result[1].green}" if result[1]
+      puts <<-TEXT
+#{product_name.white} #{price} (#{result[2]})
+      TEXT
+    end
     results = []
 
     fresh_direct_search = FreshDirectSearch.new(term)
     results = fresh_direct_search.search
     puts "\nAvailable at FreshDirect.com:" if results.count > 0
-    results[0..2].each {|result| puts result.join(" | ")}
+    results[0..count-1].each do |result| 
+      product_name = result[0][0..30]
+      product_name.concat("...") if product_name != result[0]
+      price = "at #{result[1].green}" if result[1]
+      puts <<-TEXT
+#{product_name.white} #{price} (#{result[2]})
+      TEXT
+    end
     results = []
 
-    delivery_dot_com_search = DeliveryDotComSearch.new(term)
-    results = delivery_dot_com_search.search
+    # delivery_dot_com_search = DeliveryDotComSearch.new(term)
+    # results = delivery_dot_com_search.search
   end
 
   def command_request

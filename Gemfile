@@ -4,7 +4,7 @@ source "https://rubygems.org"
 gem 'rest-client'
 gem 'nokogiri'
 gem 'mechanize'
-gem 'httparty'
 gem 'jsonpath'
+gem 'colorize'
 gem 'rspec'
 gem 'pry'

@@ -9,6 +9,18 @@ class DeliveryDotComSearch
   end
   def search
     store_ids = @merchants.collect{|m| m[:id]}
+    # merchant_urls = @merchants.collect{|m| m[:url]}
+    # merchant_urls.collect do |url|
+    #   agent = Mechanize.new
+    #   page = agent.get(url)
+
+    #   form = page.form_with(:action => 'https://www.delivery.com/catalog_item.php')
+    #   form.search_keyword = @term
+    #   search_results = agent.submit(form)
+
+
+    # binding.pry
+
     merchant_urls = store_ids.collect { |store_id| "https://api.delivery.com/merchant/#{store_id}/menu?client_id=#{TOKEN}&address=#{@address}" }
     merchant_urls.collect do |url|
       page = RestClient.get(url)
