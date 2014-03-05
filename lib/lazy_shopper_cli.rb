@@ -50,8 +50,13 @@ class LazyShopperCLI
     puts "What would you like to search for?"
     term = gets.chomp
     max_delivery_search = MaxDeliverySearch.new(term)
+    puts "Available at MaxDelivery.com..."
     results = max_delivery_search.search
-    puts results
+    results[0..2].each {|result| puts result.join(" | ")}
+    fresh_direct_search = FreshDirectSearch.new(term)
+    puts "Available at FreshDirect.com..."
+    results = fresh_direct_search.search
+    results[0..2].each {|result| puts result.join(" | ")}
   end
 
   def command_request
