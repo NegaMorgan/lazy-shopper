@@ -37,8 +37,6 @@ class LazyShopperCLI
   end
 
   def command(input)
-    # What does the ruby send method do and why would we use it?
-    # http://ruby-doc.org/core-2.1.0/Object.html#method-i-send
     send(input) if command_valid?(input)
   end
 
@@ -49,14 +47,22 @@ class LazyShopperCLI
   def search
     puts "What would you like to search for?"
     term = gets.chomp
+    puts "wait for it..."
+
     max_delivery_search = MaxDeliverySearch.new(term)
-    puts "Available at MaxDelivery.com..."
     results = max_delivery_search.search
+    puts "\nAvailable at MaxDelivery.com:" if results.count > 0
     results[0..2].each {|result| puts result.join(" | ")}
+    results = []
+
     fresh_direct_search = FreshDirectSearch.new(term)
-    puts "Available at FreshDirect.com..."
     results = fresh_direct_search.search
+    puts "\nAvailable at FreshDirect.com:" if results.count > 0
     results[0..2].each {|result| puts result.join(" | ")}
+    results = []
+
+    delivery_dot_com_search = DeliveryDotComSearch.new(term)
+    results = delivery_dot_com_search.search
   end
 
   def command_request
