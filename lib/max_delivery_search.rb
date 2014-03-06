@@ -18,6 +18,7 @@ class MaxDeliverySearch
       product = item.search(".searchName a").text.strip
       price = item.search(".price").text.gsub(/[[:space:]]/,"")
       link = REQUEST_URL + item.search(".searchName a").attribute("href").value
+      #link = ShortURL.shorten(href, :tinyurl)
 
       [product, price, link]
     end

@@ -20,6 +20,7 @@ class FreshDirectSearch
     prices = figures.select { |p| p.length > 0 }
 
     links = page.css("div.items .grid-item-name a").collect { |link| BASE_URL + link.attribute("href").value }
+    #links = hrefs.collect {|href| ShortURL.shorten(href, :tinyurl) }
 
     products.zip(prices, links)
   end
